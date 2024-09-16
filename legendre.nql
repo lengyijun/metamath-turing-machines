@@ -1,0 +1,75 @@
+/* https://en.wikipedia.org/wiki/Legendre%27s_conjecture */
+
+proc zero(x) {
+    x = 0;
+}
+
+proc incr(x) {
+    x = x + 1;
+}
+
+/* Computes x modulo y */
+proc modulus(x, y, out) {
+    out = x;
+
+    while (out >= y) {
+        out = out - y;
+    }
+}
+
+/* Figures out if x is prime, and puts the output in y */
+/* Does not modify x, modifies y */
+proc isPrime(x, h, y) {
+    if (x == 1) {
+        zero(y);
+        return;
+    }
+
+    y = 2;
+
+    while (x > y) {
+        modulus(x, y, h);
+
+        if (h == 0) {
+            zero(y);
+            return;
+        }
+        incr(y);
+    }
+}
+
+/* out = x^2 */
+proc square(x, out) {
+    out = x * x;
+    return;
+}
+
+
+global h;           /* cache */
+global n;       
+global low_bound;   /* n^2     */
+global upper_bound; /* (n+1)^2 */
+global isThisOnePrime;
+
+proc main() {
+    n = 2;
+    /* forever loop */
+    while (0 < n) {
+        square(n, low_bound);
+        incr(low_bound);
+        incr(n);
+        square(n, upper_bound);
+        isThisOnePrime = 0;
+        while (isThisOnePrime == 0) {
+            if (low_bound < upper_bound) {
+                isPrime(low_bound, h, isThisOnePrime);
+                incr(low_bound);
+            } else {
+                /* no prime between n^2 and (n+1)^2 */
+                /* print n; */
+                return;
+            }
+        }
+    }
+    return;
+}
