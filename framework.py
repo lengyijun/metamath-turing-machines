@@ -212,7 +212,6 @@ class MachineBuilder:
     """Subclassable class of utilities for constructing Turing machines using
     BDD-compressed register machines."""
     pc_bits = 0
-    quick = 0
     # Quick=0: Print TM
     # Quick=1: Simulate TM, print all steps
     # Quick=2: Simulate TM, print at dispatch
@@ -484,16 +483,11 @@ class MachineBuilder:
         """Assigns a name to a register, and creates the primitive inc/dec routines."""
         index = self._nextreg
         self._nextreg += 1
-        pad = 0
 
         inc = Subroutine(self.reg_incr(index), 0, 'reg_incr('+name+')')
         dec = Subroutine(self.reg_decr(index), 0, 'reg_decr('+name+')', is_decrement=True)
 
         return Register(name, index, inc, dec)
-
-    def regfile(self, *regs):
-        """Assigns names to one or more registers, and creates the primitive inc/dec routines."""
-        return [self.register(name) for name in regs]
 
     @memo
     def transfer(self, source, *to):
