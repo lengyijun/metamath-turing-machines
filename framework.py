@@ -219,7 +219,6 @@ class Machine:
 
         builder.dispatchroot().clone(self.main.entry)
         self.entry = builder.dispatch_order(builder.pc_bits, 0)
-
         self.state = self.entry
         self.left_tape = []
         self.current_tape = '0'
