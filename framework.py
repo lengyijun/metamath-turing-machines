@@ -511,15 +511,14 @@ class MachineBuilder:
 class Machine:
     """Manipulates and debugs the generated Turing machine for a MachineBuilder."""
     def __init__(self, builder):
-        self.builder = builder
         self.main = builder.main()
 
         if self.main.order != builder.pc_bits:
             print('pc_bits does not match calculated main order:', self.main.order, builder.pc_bits)
             assert False
 
-        self.builder.dispatchroot().clone(self.main.entry)
-        self.entry = self.builder.dispatch_order(self.builder.pc_bits, 0)
+        builder.dispatchroot().clone(self.main.entry)
+        self.entry = builder.dispatch_order(builder.pc_bits, 0)
 
         self.state = self.entry
         self.left_tape = []
