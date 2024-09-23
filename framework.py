@@ -106,7 +106,9 @@ class Subroutine:
         self.name = name
         self.order = order
         self.size = 1 << order
+        # is_decrement is useless
         self.is_decrement = is_decrement
+        # the only usage of child_map is to print
         self.child_map = child_map or {}
 
 InsnInfo = namedtuple('InsnInfo', 'sub labels goto')
